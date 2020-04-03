@@ -16,6 +16,12 @@ export const LocationProvider = (props) => {
         return fetch("http://localhost:8088/locations")
             .then(res => res.json())
             .then(setLocations)
+        }
+
+        const getLocationsWithEmployees = () => {
+            return fetch("http://localhost:8088/locations?_embed=employees")
+            .then(res => res.json())
+            .then(setLocations)
     }
 
     const addLocation = location => {
@@ -34,12 +40,12 @@ export const LocationProvider = (props) => {
         an empty array is the second argument to avoid infinite loop.
     */
     useEffect(() => {
-        getLocations()
+        getLocationsWithEmployees()
     }, [])
 
     return (
         <LocationContext.Provider value={{
-            locations, addLocation
+            locations, addLocation, getLocationsWithEmployees
         }}>
             {props.children}
         </LocationContext.Provider>

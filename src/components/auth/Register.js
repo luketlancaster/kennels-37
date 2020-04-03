@@ -2,11 +2,11 @@ import React, { useRef } from "react"
 import "./Login.css"
 
 const Register = props => {
-    const firstName = useRef()
-    const lastName = useRef()
-    const email = useRef()
-    const password = useRef()
-    const verifyPassword = useRef()
+    const firstName = React.createRef()
+    const lastName = React.createRef()
+    const email = React.createRef()
+    const password = React.createRef()
+    const verifyPassword = React.createRef()
 
     const existingUserCheck = () => {
         return fetch(`http://localhost:8088/customers?email=${email.current.value}`)

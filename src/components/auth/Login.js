@@ -4,10 +4,10 @@ import "./Login.css"
 
 
 const Login = props => {
-    const email = useRef()
-    const password = useRef()
-    const customerName = useRef()
-    const address = useRef()
+    const email = React.createRef()
+    const password = React.createRef()
+    const customerName = React.createRef()
+    const address = React.createRef()
 
     const existingUserCheck = () => {
         return fetch(`http://localhost:8088/customers?email=${email.current.value}`)
@@ -63,6 +63,7 @@ const Login = props => {
                         <input ref={email} type="email"
                             id="email"
                             className="form-control"
+                            defaultValue="steve@stevebrownlee.com"
                             placeholder="Email address"
                             required autoFocus />
                     </fieldset>
@@ -71,6 +72,7 @@ const Login = props => {
                         <input ref={password} type="password"
                             id="password"
                             className="form-control"
+                            defaultValue="123"
                             placeholder="Password"
                             required />
                     </fieldset>

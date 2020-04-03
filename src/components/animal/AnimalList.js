@@ -2,9 +2,21 @@ import React, { useContext } from "react"
 import { AnimalContext } from "./AnimalProvider"
 import Animal from "./Animal"
 import "./Animals.css"
+import { useEffect } from "react"
+import { useState } from "react"
 
 export default (props) => {
-    const { animals } = useContext(AnimalContext)
+    const { animals, searchTerm, setAnimals } = useContext(AnimalContext)
+    const [ filteredAnimals, setFiltered ] = useState([])
+
+    useEffect(() => {
+        const subset = animals.filter(animal => animal.name.toLowerCase().includes(searchTerm))
+        setFiltered(subset)
+    }, [searchTerm])
+
+    useEffect(() => {
+        setFiltered(animals)
+    }, [animals])
 
     return (
         <>
@@ -15,7 +27,7 @@ export default (props) => {
             </button>
             <div className="animals">
                 {
-                    animals.map(animal => {
+                    filteredAnimals.map(animal => {
                         return <Animal key={animal.id} animal={animal} />
                     })
                 }

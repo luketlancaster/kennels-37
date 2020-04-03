@@ -10,18 +10,16 @@ export default () => (
     <>
         <Route render={() => {
             if (localStorage.getItem("kennel_customer")) {
-                return (
-                    <>
-                        <Route render={props => <NavBar {...props} />} />
-                        <Route render={props => <ApplicationViews {...props} />} />
+                return <>
+                        <Route render={ NavBar } />
+                        <Route render={ ApplicationViews } />
                     </>
-                )
             } else {
                 return <Redirect to="/login" />
             }
         }} />
 
-        <Route path="/login" render={props => <Login {...props} />} />
-        <Route path="/register" render={props => <Register {...props} />} />
+        <Route path="/login" render={ Login } />
+        <Route path="/register" render={ Register } />
     </>
 )
