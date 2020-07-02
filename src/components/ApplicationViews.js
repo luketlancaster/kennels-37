@@ -14,9 +14,9 @@ import AnimalDetails from "./animal/AnimalDetails"
 import AnimalForm from "./animal/AnimalForm"
 import { MedicationProvider } from "./medication/MedicationProvider"
 import MedicationForm from "./medication/MedicationForm"
-import AnimalSearch from "./animal/AnimalSearch"
+import { AnimalSearch } from "./animal/AnimalSearch"
 
-export default () => {
+export const ApplicationViews = (props) => {
     return (
         <>
             <LocationProvider>
@@ -54,12 +54,10 @@ export default () => {
                 <LocationProvider>
                     <CustomerProvider>
                         <Route exact path="/animals" render={
-                            props => {
-                                return <>
-                                    <AnimalSearch {...props} />
+                            props => <>
+                                    <AnimalSearch />
                                     <AnimalList {...props} />
                                 </>
-                            }
                         } />
                         <Route exact path="/animals/create" render={
                             props => <AnimalForm {...props} />

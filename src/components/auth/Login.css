@@ -56,3 +56,13 @@ fieldset {
     background-blend-mode: overlay;
     background-repeat: no-repeat;
 }
+
+.button--close {
+    position: relative;
+    bottom: -2rem;
+}
+
+.dialog {
+    min-width: 15rem;
+    min-height: 5rem;
+}
