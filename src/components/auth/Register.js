@@ -1,22 +1,18 @@
 import React, { useRef } from "react"
 import "./Login.css"
 
-const Register = props => {
+export const Register = (props) => {
     const firstName = useRef()
     const lastName = useRef()
     const email = useRef()
     const password = useRef()
     const verifyPassword = useRef()
+    const passwordDialog = useRef()
 
     const existingUserCheck = () => {
         return fetch(`http://localhost:8088/customers?email=${email.current.value}`)
             .then(_ => _.json())
-            .then(user => {
-                if (user.length) {
-                    return true
-                }
-                return false
-            })
+            .then(user => !!user.length)
     }
 
     const handleRegister = (e) => {
@@ -45,12 +41,18 @@ const Register = props => {
                         })
                 })
         } else {
-            window.alert("Passwords do not match")
+            passwordDialog.current.showModal()
         }
     }
 
     return (
         <main style={{ textAlign: "center" }}>
+
+            <dialog className="dialog dialog--password" ref={passwordDialog}>
+                <div>Passwords do not match</div>
+                <button className="button--close" onClick={e => passwordDialog.current.close()}>Close</button>
+            </dialog>
+
             <form className="form--login" onSubmit={handleRegister}>
                 <h1 className="h3 mb-3 font-weight-normal">Please Register for NSS Kennels</h1>
                 <fieldset>
@@ -102,5 +104,3 @@ const Register = props => {
         </main>
     )
 }
-
-export default Register

@@ -3,21 +3,16 @@ import { Link } from "react-router-dom";
 import "./Login.css"
 
 
-const Login = props => {
+export const Login = props => {
     const email = useRef()
     const password = useRef()
-    const customerName = useRef()
-    const address = useRef()
+    const existDialog = useRef()
+    const passwordDialog = useRef()
 
     const existingUserCheck = () => {
         return fetch(`http://localhost:8088/customers?email=${email.current.value}`)
             .then(_ => _.json())
-            .then(user => {
-                if (user.length) {
-                    return user[0]
-                }
-                return false
-            })
+            .then(user => user.length ? user[0] : false)
     }
 
     const handleLogin = (e) => {
@@ -29,31 +24,23 @@ const Login = props => {
                     localStorage.setItem("kennel_customer", exists.id)
                     props.history.push("/")
                 } else if (exists && exists.password !== password.current.value) {
-                    window.alert("Password does not match")
+                    passwordDialog.current.showModal()
                 } else if (!exists) {
-                    fetch("http://localhost:8088/customers", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            email: email.current.value,
-                            password: password.current.value,
-                            name: customerName.current.value,
-                            address: address.current.value
-                        })
-                    })
-                        .then(_ => _.json())
-                        .then(response => {
-                            localStorage.setItem("kennel_customer", response.id)
-                            props.history.push("/")
-                        })
+                    existDialog.current.showModal()
                 }
             })
     }
 
     return (
         <main className="container--login">
+            <dialog className="dialog dialog--auth" ref={existDialog}>
+                <div>User does not exist</div>
+                <button className="button--close" onClick={e => existDialog.current.close()}>Close</button>
+            </dialog>
+            <dialog className="dialog dialog--password" ref={passwordDialog}>
+                <div>Password does not match</div>
+                <button className="button--close" onClick={e => passwordDialog.current.close()}>Close</button>
+            </dialog>
             <section>
                 <form className="form--login" onSubmit={handleLogin}>
                     <h1>Nashville Kennels</h1>
@@ -77,7 +64,7 @@ const Login = props => {
                     <fieldset>
                         <button type="submit">
                             Sign in
-                    </button>
+                        </button>
                     </fieldset>
                 </form>
             </section>
@@ -87,5 +74,3 @@ const Login = props => {
         </main>
     )
 }
-export default Login
-
